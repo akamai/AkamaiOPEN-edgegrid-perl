@@ -266,7 +266,7 @@ L<https://developer.akamai.com>
 
 =item * Github issues (report bugs here)
 
-L<https://github.com/akamai-open/edgegrid-perl/issues>
+L<https://github.com/akamai-open/AkamaiOPEN-edgegrid-perl/issues>
 
 =item * AnnoCPAN: Annotated CPAN documentation
 
