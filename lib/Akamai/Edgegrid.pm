@@ -20,7 +20,7 @@ Version 1.0
 
 =cut
 
-our $VERSION = '1.0';
+our $VERSION = '1.0.1';
 
 =head1 SYNOPSIS
 
@@ -109,10 +109,19 @@ sub _canonicalize_headers {
 sub _make_content_hash {
     my ($self, $r) = @_;
     if ($r->method eq 'POST' and length($r->content) > 0) {
-        if (length($r->content) > $self->{max_body}) {
-            die "body is too large.  max_body=" . $self->{max_body} . "\n";
+        my $body = $r->content;
+        if (length($body) > $self->{max_body}) {
+            $self->_debug(
+                "data length " . length($body) . " is larger than maximum " . $self->{max_body}
+            );
+
+            $body = substr($body, 0, $self->{max_body});
+
+            $self->_debug(
+                "data truncated to " . length($body) . " for computing the hash"
+            );
         }
-        return _padded_sha256_base64($r->content);
+        return _padded_sha256_base64($body);
     }
     return "";
 }
@@ -191,7 +200,7 @@ The following optional key/value pairs may be provided:
     --------------- -------------------------------------------------------
     debug           if true enables additional logging
     headers_to_sign listref of header names to sign (in order) (default [])
-    max_body        maximum body size for POSTS (default 2048)
+    max_body        maximum body size for POSTS (default 128k)
 
 =cut
 
@@ -224,7 +233,7 @@ sub new {
         $self->{headers_to_sign} = [];
     }
     unless ($self->{max_body}) {
-        $self->{max_body} = 2048;
+        $self->{max_body} = 128*1024;
     }
 
     $self->add_handler('request_prepare' => sub {
