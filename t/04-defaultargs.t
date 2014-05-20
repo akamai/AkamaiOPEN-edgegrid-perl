@@ -18,7 +18,7 @@ plan tests=>2;
 my $ua = new Akamai::Edgegrid(client_token=>'xxx', client_secret=>'xxx',
     access_token=>'xxx');
 
-is($ua->{max_body}, 128*1024, 'default max_body=128k');
+is($ua->{max_body}, 2048, 'default max_body=2048');
 is_deeply($ua->{headers_to_sign}, [], 'default headers_to_sign=[]');
 
 =head1 LICENSE AND COPYRIGHT

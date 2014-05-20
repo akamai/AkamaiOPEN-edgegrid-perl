@@ -200,7 +200,7 @@ The following optional key/value pairs may be provided:
     --------------- -------------------------------------------------------
     debug           if true enables additional logging
     headers_to_sign listref of header names to sign (in order) (default [])
-    max_body        maximum body size for POSTS (default 128k)
+    max_body        maximum body size for POSTS (default 2048)
 
 =cut
 
@@ -233,7 +233,7 @@ sub new {
         $self->{headers_to_sign} = [];
     }
     unless ($self->{max_body}) {
-        $self->{max_body} = 128*1024;
+        $self->{max_body} = 2048;
     }
 
     $self->add_handler('request_prepare' => sub {
