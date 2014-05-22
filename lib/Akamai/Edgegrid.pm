@@ -28,9 +28,9 @@ our $VERSION = '1.0.1';
 
     my $baseurl = 'https://akaa-bbbbbbbbbbbbb.luna.akamaiapis.net';
     my $agent = new Akamai::Edgegrid(
-        client_token => 'akab-ccccccccccccttttttttttt',
-        client_secret => 'ZZZZZZZZZZZZZZZZZZZZZZZZ',
-        access_token => 'akab-aaaaaaaaaaacccccccsssssss'
+        client_token => 'cccccccccccccccc',
+        client_secret => 'sssssssssssssssss',
+        access_token => 'aaaaaaaaaaaaaaaaaaaa'
     );
 
     my $resp = $agent->get("$baseurl/diagnostic-tools/v1/locations");
