@@ -8,7 +8,6 @@ WriteMakefile(
     AUTHOR           => q{Jonathan Landis <jlandis@akamai.com>},
     VERSION_FROM     => 'lib/Akamai/Edgegrid.pm',
     ABSTRACT         => 'Akamai {OPEN} Edgegrid Authentication',
-    DISTNAME         => 'edgegrid-perl',
     LICENSE          => 'Apache_2_0',
     PL_FILES         => {},
     MIN_PERL_VERSION => 5.006,
@@ -26,5 +25,5 @@ WriteMakefile(
 	'Data::UUID' => 0
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
-    clean => { FILES => 'edgegrid-perl-*' },
+    clean => { FILES => 'Akamai-Edgegrid-*' },
 );
