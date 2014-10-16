@@ -38,7 +38,7 @@ our $VERSION = '1.0.2';
 
 =head1 DESCRIPTION
 
-This module implements the Akamai {OPEN} Edgegrid Authentication scheme as specified by L<https://developer.akamai.com/stuff/Getting_Started_with_OPEN_APIs/Client_Auth.html>.
+This module implements the Akamai {OPEN} Edgegrid Authentication scheme as specified by L<https://developer.akamai.com/introduction/Client_Auth.html>.
 
 =cut
 
