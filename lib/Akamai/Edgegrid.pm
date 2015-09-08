@@ -9,6 +9,7 @@ use Data::Dumper;
 use Digest::SHA qw(hmac_sha256_base64 sha256_base64);
 use POSIX qw(strftime);
 use Data::UUID;
+use Config::IniFiles;
 
 =head1 NAME
 
@@ -26,12 +27,10 @@ our $VERSION = '1.0.4';
 
     use Akamai::Edgegrid;
 
-    my $baseurl = 'https://akaa-bbbbbbbbbbbbb.luna.akamaiapis.net';
     my $agent = new Akamai::Edgegrid(
-        client_token => 'cccccccccccccccc',
-        client_secret => 'sssssssssssssssss',
-        access_token => 'aaaaaaaaaaaaaaaaaaaa'
-    );
+                        config_file => "$ENV{HOME}/.edgerc",
+                        section   => "default" );
+    my $baseurl = "https://" . $agent->{host};
 
     my $resp = $agent->get("$baseurl/diagnostic-tools/v1/locations");
     print $resp->content;
@@ -208,8 +207,9 @@ sub new {
     my $class = shift @_;
     my %args = @_;
 
-    my @local_args = qw(client_token client_secret access_token headers_to_sign max_body debug);
-    my @required_args = qw(client_token client_secret access_token);
+    my @local_args = qw(config_file section headers_to_sign max_body debug);
+    my @required_args = qw(config_file section);
+    my @cred_args = qw(client_token access_token host client_secret);
     my %local = ();
 
     for my $arg (@local_args) {
@@ -221,21 +221,34 @@ sub new {
     for my $arg (@local_args) {
         $self->{$arg} = $local{$arg};
     }
-
-    for my $arg (@required_args) {
-        unless ($self->{$arg}) {
-            die "missing required argument $arg";
-        }
-    }
-
+    
     # defaults
+    unless ($self->{config_file}) {
+	$self->{config_file} = "$ENV{HOME}/.edgerc";
+    }
     unless ($self->{headers_to_sign}) {
         $self->{headers_to_sign} = [];
     }
     unless ($self->{max_body}) {
-        $self->{max_body} = 2048;
+        $self->{max_body} = 131072;
     }
 
+    print $self->{config_file};
+    print $self->{section};
+    my $cfg = Config::IniFiles->new( -file => $self->{config_file} );
+    for my $variable (@cred_args) {
+	print $self->{section};
+	print $variable;
+	print $variable;
+	$self->{$variable} = $cfg->val($self->{section}, $variable);
+	print $variable;
+	print $self->{$variable}
+    }
+
+    if ( $cfg->val($self->{section}, "max_body") ) {
+	$self->{max_body} = $cfg->val($self->{section}, "max_body");
+    }
+    
     $self->add_handler('request_prepare' => sub {
         my ($r, $ua, $h) = @_;
 
