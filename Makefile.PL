@@ -22,7 +22,8 @@ WriteMakefile(
     },
     PREREQ_PM => {
         'LWP' => 5.834,
-	'Data::UUID' => 0
+	'Data::UUID' => 0,
+	'Config::IniFiles' => 0
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'Akamai-Edgegrid-*' },
