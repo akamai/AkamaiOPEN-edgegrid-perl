@@ -11,3 +11,6 @@ Revision history for edgegrid-perl
 
 1.0.4 2014-10-16
  - Fix broken link
+
+1.0.5 2015-09-10
+ - Add edgerc support
