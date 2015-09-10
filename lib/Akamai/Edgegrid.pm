@@ -28,8 +28,8 @@ our $VERSION = '1.0.4';
     use Akamai::Edgegrid;
 
     my $agent = new Akamai::Edgegrid(
-                        config_file => "$ENV{HOME}/.edgerc",
-                        section   => "default" );
+                    config_file => "$ENV{HOME}/.edgerc",
+                    section   => "default");
     my $baseurl = "https://" . $agent->{host};
 
     my $resp = $agent->get("$baseurl/diagnostic-tools/v1/locations");
@@ -215,36 +215,35 @@ sub new {
     for my $arg (@local_args) {
         $local{$arg} = delete $args{$arg};
     }
-    
+
     my $self = LWP::UserAgent::new($class, %args);
 
     for my $arg (@local_args) {
         $self->{$arg} = $local{$arg};
     }
-    
+
     # defaults
     unless ($self->{config_file}) {
-	$self->{config_file} = "$ENV{HOME}/.edgerc";
+        $self->{config_file} = "$ENV{HOME}/.edgerc";
     }
     if (-f $self->{config_file} and $self->{section} ) {
-	my $cfg = Config::IniFiles->new( -file => $self->{config_file} );
-    	for my $variable (@cred_args) {
-		if ($cfg->val($self->{section}, $variable)) {
-       			$self->{$variable} = $cfg->val($self->{section}, $variable);
-		} else {
-			die ("Config file " .
-				$self->{config_file} .
-				" is missing required argument " . $variable .
-				" in section " . $self->{section} );
-		}
-	}
-    	if ( $cfg->val($self->{section}, "max_body") ) {
-		$self->{max_body} = $cfg->val($self->{section}, "max_body");
-    	}
+        my $cfg = Config::IniFiles->new( -file => $self->{config_file} );
+        for my $variable (@cred_args) {
+            if ($cfg->val($self->{section}, $variable)) {
+                $self->{$variable} = $cfg->val($self->{section}, $variable);
+            } else {
+                die ("Config file " .  $self->{config_file} .
+                    " is missing required argument " . $variable .
+                    " in section " . $self->{section} );
+            }
+        }
+        if ( $cfg->val($self->{section}, "max_body") ) {
+            $self->{max_body} = $cfg->val($self->{section}, "max_body");
+        }
     }
 
     for my $arg (@required_args) {
-	unless ($self->{$arg}) {
+    unless ($self->{$arg}) {
             die "missing required argument $arg";
         }
     }
@@ -256,7 +255,6 @@ sub new {
         $self->{max_body} = 131072;
     }
 
-    
     $self->add_handler('request_prepare' => sub {
         my ($r, $ua, $h) = @_;
 
