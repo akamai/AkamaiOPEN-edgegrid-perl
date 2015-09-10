@@ -207,9 +207,9 @@ sub new {
     my $class = shift @_;
     my %args = @_;
 
-    my @local_args = qw(config_file section headers_to_sign max_body debug);
-    my @required_args = qw(config_file section);
-    my @cred_args = qw(client_token access_token host client_secret);
+    my @local_args = qw(config_file section client_token client_secret access_token headers_to_sign max_body debug);
+    my @required_args = qw(client_token client_secret access_token);
+    my @cred_args = qw(client_token client_secret access_token host);
     my %local = ();
 
     for my $arg (@local_args) {
@@ -226,6 +226,29 @@ sub new {
     unless ($self->{config_file}) {
 	$self->{config_file} = "$ENV{HOME}/.edgerc";
     }
+    if (-f $self->{config_file} and $self->{section} ) {
+	my $cfg = Config::IniFiles->new( -file => $self->{config_file} );
+    	for my $variable (@cred_args) {
+		if ($cfg->val($self->{section}, $variable)) {
+       			$self->{$variable} = $cfg->val($self->{section}, $variable);
+		} else {
+			die ("Config file " .
+				$self->{config_file} .
+				" is missing required argument " . $variable .
+				" in section " . $self->{section} );
+		}
+	}
+    	if ( $cfg->val($self->{section}, "max_body") ) {
+		$self->{max_body} = $cfg->val($self->{section}, "max_body");
+    	}
+    }
+
+    for my $arg (@required_args) {
+	unless ($self->{$arg}) {
+            die "missing required argument $arg";
+        }
+    }
+
     unless ($self->{headers_to_sign}) {
         $self->{headers_to_sign} = [];
     }
@@ -233,21 +256,6 @@ sub new {
         $self->{max_body} = 131072;
     }
 
-    print $self->{config_file};
-    print $self->{section};
-    my $cfg = Config::IniFiles->new( -file => $self->{config_file} );
-    for my $variable (@cred_args) {
-	print $self->{section};
-	print $variable;
-	print $variable;
-	$self->{$variable} = $cfg->val($self->{section}, $variable);
-	print $variable;
-	print $self->{$variable}
-    }
-
-    if ( $cfg->val($self->{section}, "max_body") ) {
-	$self->{max_body} = $cfg->val($self->{section}, "max_body");
-    }
     
     $self->add_handler('request_prepare' => sub {
         my ($r, $ua, $h) = @_;
