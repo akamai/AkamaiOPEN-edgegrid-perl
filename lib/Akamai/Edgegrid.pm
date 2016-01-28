@@ -231,6 +231,7 @@ sub new {
         for my $variable (@cred_args) {
             if ($cfg->val($self->{section}, $variable)) {
                 $self->{$variable} = $cfg->val($self->{section}, $variable);
+		$self->{$variable} =~ s/\s*//;
             } else {
                 die ("Config file " .  $self->{config_file} .
                     " is missing required argument " . $variable .
