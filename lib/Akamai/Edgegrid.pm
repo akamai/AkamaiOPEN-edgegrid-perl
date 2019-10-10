@@ -207,8 +207,8 @@ sub new {
     my $class = shift @_;
     my %args = @_;
 
-    my @local_args = qw(config_file section client_token client_secret access_token headers_to_sign max_body debug);
-    my @required_args = qw(client_token client_secret access_token);
+    my @local_args = qw(config_file section client_token client_secret access_token host headers_to_sign max_body debug);
+    my @required_args = qw(client_token client_secret access_token host);
     my @cred_args = qw(client_token client_secret access_token host);
     my %local = ();
 
