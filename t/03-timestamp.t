@@ -1,7 +1,4 @@
 #!perl -T
-
-#
-# Original author: Jonathan Landis <jlandis@akamai.com>
 #
 # for more info visit https://developer.akamai.com
 #
