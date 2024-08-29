@@ -5,7 +5,6 @@ use ExtUtils::MakeMaker;
 
 WriteMakefile(
     NAME             => 'Akamai::Edgegrid',
-    AUTHOR           => q{Jonathan Landis <jlandis@akamai.com>},
     VERSION_FROM     => 'lib/Akamai/Edgegrid.pm',
     ABSTRACT         => 'Akamai {OPEN} Edgegrid Authentication',
     LICENSE          => 'Apache_2_0',
