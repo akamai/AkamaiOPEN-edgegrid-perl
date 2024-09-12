@@ -32,7 +32,7 @@ our $VERSION = '1.0.5';
                     section   => "default");
     my $baseurl = "https://" . $agent->{host};
 
-    my $resp = $agent->get("$baseurl/diagnostic-tools/v1/locations");
+    my $resp = $agent->get("$baseurl/identity-management/v3/user-profile");
     print $resp->content;
 
 =head1 DESCRIPTION
@@ -270,10 +270,6 @@ sub new {
 
 =back
 
-=head1 AUTHOR
-
-Jonathan Landis, C<< <jlandis at akamai.com> >>
-
 =head1 BUGS
 
 Please report any bugs or feature requests to the web interface at L<https://github.com/akamai-open/edgegrid-perl/issues>.  
@@ -310,24 +306,6 @@ L<http://cpanratings.perl.org/d/edgegrid-perl>
 L<http://search.cpan.org/dist/edgegrid-perl/>
 
 =back
-
-
-=head1 LICENSE AND COPYRIGHT
-
-Copyright 2024 Akamai Technologies, Inc. All rights reserved
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    L<http://www.apache.org/licenses/LICENSE-2.0>
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
 
 =cut
 
