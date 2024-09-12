@@ -32,7 +32,7 @@ our $VERSION = '1.0.5';
                     section   => "default");
     my $baseurl = "https://" . $agent->{host};
 
-    my $resp = $agent->get("$baseurl/diagnostic-tools/v1/locations");
+    my $resp = $agent->get("$baseurl/identity-management/v3/user-profile");
     print $resp->content;
 
 =head1 DESCRIPTION
